@@ -1,0 +1,34 @@
+{
+  "templates": [
+    {
+      "name": "brand-center-page",
+      "description": "Northwell Health Brand Center pages built from the Brand Center Reimagination mockup (served locally from tools/importer/mockup)",
+      "urls": [],
+      "blocks": [
+        { "name": "carousel", "instances": [".nw-carousel"] },
+        { "name": "ask-brand", "instances": ["form.nw-ask-brand"] },
+        { "name": "columns", "instances": [".nw-columns"] },
+        { "name": "tiles", "instances": ["ul.nw-tiles"] },
+        { "name": "sound-list", "instances": ["ul.nw-sounds"] }
+      ],
+      "sections": [
+        {
+          "id": "section-n",
+          "name": "Mockup section",
+          "selector": ["section.nw-section"],
+          "style": null,
+          "blocks": ["carousel", "ask-brand", "columns", "tiles", "sound-list"],
+          "defaultContent": ["h1", "h2", "p"]
+        },
+        {
+          "id": "section-n-plus-1",
+          "name": "Mockup section (repeated)",
+          "selector": ["section.nw-section + section.nw-section"],
+          "style": "divider",
+          "blocks": [],
+          "defaultContent": []
+        }
+      ]
+    }
+  ]
+}

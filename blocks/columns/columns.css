@@ -1,43 +1,109 @@
 .columns > div {
   display: flex;
   flex-direction: column;
-  gap: var(--space-l);
+  gap: var(--space-xl);
 }
 
-.columns img {
+.columns > div + div {
+  margin-top: var(--space-2xl);
+}
+
+.columns > div > div img {
+  display: block;
   width: 100%;
-  border-radius: 12px;
+  height: auto;
+  aspect-ratio: auto;
 }
 
 .columns > div > div {
   order: 1;
 }
 
-.columns > div > .columns-img-col {
-  order: 0;
-}
-
-.columns > div > .columns-img-col img {
-  display: block;
-}
-
-.columns > div > div :is(h2, h3) {
-  letter-spacing: -0.01em;
-}
-
 .columns > div > div p {
   line-height: 1.65;
 }
 
+.columns > div > .columns-img-col {
+  order: 0;
+}
+
+.columns > div > .columns-img-col p {
+  margin: 0;
+}
+
+.columns > div > div > :is(h2, h3):first-child {
+  margin-top: 0;
+}
+
+/* banner: framed split panel – logo + buttons on white, artwork edge to edge */
+.columns.banner > div {
+  gap: 0;
+  border: var(--border-frame);
+}
+
+/* multi-column text (3+ columns): stack evenly, push buttons to the bottom */
+.columns.columns-3-cols > div > div,
+.columns.columns-4-cols > div > div {
+  display: flex;
+  flex-direction: column;
+}
+
+.columns.columns-3-cols > div > div > :is(.button-container, .button-group):last-child,
+.columns.columns-4-cols > div > div > :is(.button-container, .button-group):last-child {
+  margin-top: auto;
+  padding-top: var(--space-m);
+}
+
+/* banner content */
+.columns.banner > div > .columns-img-col img {
+  height: 100%;
+  object-fit: cover;
+}
+
+.columns.banner > div > div:not(.columns-img-col) {
+  padding: var(--space-xl) var(--space-l);
+  text-align: center;
+}
+
+.columns.banner > div > div:not(.columns-img-col) img {
+  max-width: 520px;
+  margin: 0 auto;
+}
+
+.columns.banner .button-group {
+  justify-content: center;
+}
+
 @media (width >= 900px) {
   .columns > div {
-    align-items: center;
     flex-direction: unset;
-    gap: var(--space-2xl, 48px);
+    align-items: center;
+    gap: var(--space-3xl);
   }
 
   .columns > div > div {
     flex: 1;
     order: unset;
+  }
+
+  .columns.columns-3-cols > div,
+  .columns.columns-4-cols > div {
+    align-items: stretch;
+  }
+
+  .columns.banner > div {
+    align-items: stretch;
+    gap: 0;
+  }
+
+  .columns.banner > div > .columns-img-col {
+    order: 1;
+  }
+
+  .columns.banner > div > div:not(.columns-img-col) {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: var(--space-2xl);
   }
 }

@@ -1,121 +1,88 @@
 footer {
-  width: 100%;
-  background-color: light-dark(var(--color-rust), #080d0d);
-  color: var(--color-parchment);
-  border-top: light-dark(none, var(--border-heritage));
-  font-size: var(--body-font-size-xs);
+  border-top: var(--border-rule);
+  background-color: var(--nw-white);
+  font-size: var(--body-font-size-s);
 }
 
 footer .footer > div {
-  max-width: 1100px;
-  margin: 0 auto;
-  padding: 40px var(--content-padding-inline);
-  text-align: center;
+  display: grid;
+  gap: var(--space-l);
+  max-width: var(--grid-container-width);
+  margin: auto;
+  padding: var(--space-2xl) var(--content-padding-inline);
+}
+
+footer .footer .section {
+  margin: 0;
+  padding: 0;
 }
 
 footer .footer p {
   margin: 0;
-  line-height: 1.55;
 }
 
-/* Row 1: Disclaimer */
-footer .footer .section:first-child {
-  padding-bottom: var(--space-m);
-  font-size: var(--body-font-size-s);
-  font-weight: 400;
+footer .footer .footer-brand img {
+  display: block;
+  width: 240px;
+  height: auto;
+  aspect-ratio: auto;
 }
 
-/* Row 2: Tagline */
-footer .footer .section:nth-child(2) p {
-  font-family: var(--font-family-serif);
-  font-weight: 400;
-  font-size: var(--body-font-size-s);
-  opacity: 0.7;
-  margin-top: var(--space-s);
-}
-
-/* Row 3: Copyright + social icons (merged) */
-footer .footer .section:nth-child(3) {
-  margin-top: var(--space-m);
-  border-top: 1px solid rgb(255 255 255 / 15%);
-  padding-top: var(--space-m);
-}
-
-footer .footer .section:nth-child(3) .default-content-wrapper {
+footer .footer .footer-links ul {
   display: flex;
-  align-items: center;
-  justify-content: center;
   flex-wrap: wrap;
-  gap: var(--space-s);
-}
-
-footer .footer .footer-separator {
-  opacity: 0.4;
-  margin-inline: var(--space-xs);
-}
-
-footer .footer .section:nth-child(3) ul {
+  gap: var(--space-s) var(--space-xl);
   margin: 0;
   padding: 0;
   list-style: none;
+}
+
+footer .footer .footer-links a:any-link {
+  color: var(--nw-dark-blue);
+  font-family: var(--font-family-condensed);
+  font-size: var(--body-font-size-m);
+  font-weight: 700;
+  text-decoration: none;
+  text-transform: uppercase;
+}
+
+footer .footer .footer-links a:hover {
+  text-decoration: underline;
+}
+
+footer .footer .footer-legal {
+  padding-top: var(--space-l);
+  border-top: 1px solid var(--color-gray-300);
+  color: var(--color-gray-700);
+}
+
+footer .footer .footer-legal .default-content-wrapper {
   display: flex;
-  align-items: center;
+  flex-direction: column;
   gap: var(--space-s);
 }
 
-footer .footer .section:nth-child(3) li {
-  margin: 0;
+footer .footer .footer-legal a:any-link {
+  color: var(--nw-dark-blue);
 }
 
-footer .footer a:any-link {
-  color: var(--color-parchment);
-  text-decoration-color: rgb(245 242 237 / 30%);
-  transition: color 0.25s, text-decoration-color 0.25s, opacity 0.25s;
-}
-
-footer .footer a:any-link:hover {
-  text-decoration-color: var(--color-gold);
-  color: var(--color-gold);
-}
-
-footer .footer .section:nth-child(3) ul a {
-  text-decoration: none;
-  color: inherit;
-  opacity: 0.7;
-  transition: opacity 0.25s, transform 0.25s;
-}
-
-footer .footer .section:nth-child(3) ul a:hover {
-  opacity: 1;
-  transform: scale(1.1);
-}
-
-footer .footer .icon {
-  width: 18px;
-  height: 18px;
-  filter: brightness(0) invert(1);
-  transition: transform 0.25s var(--ease-out-expo, cubic-bezier(0.16, 1, 0.3, 1));
-}
-
-footer .footer .icon.icon-logo {
-  display: inline-flex;
-  align-items: center;
-  width: auto;
-  height: 1.2em;
-  vertical-align: middle;
-  margin-inline: 4px;
-  filter: none;
-  color: var(--color-parchment);
-}
-
-footer .footer .icon.icon-logo :is(svg, img) {
-  width: auto;
-  height: 100%;
-  object-fit: contain;
-}
-
-@media (width >= 600px) {
+@media (width >= 900px) {
   footer .footer > div {
-    padding: 48px var(--content-padding-inline);
+    grid-template-columns: auto 1fr;
+    align-items: center;
+    column-gap: var(--space-3xl);
+  }
+
+  footer .footer .footer-links ul {
+    justify-content: flex-end;
+  }
+
+  footer .footer .footer-legal {
+    grid-column: 1 / -1;
+  }
+
+  footer .footer .footer-legal .default-content-wrapper {
+    flex-direction: row;
+    justify-content: space-between;
   }
 }

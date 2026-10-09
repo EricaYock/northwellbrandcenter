@@ -47,9 +47,8 @@ const THEME_STORAGE_KEY = 'demo-theme';
 
 function applyTheme(theme) {
   let t = theme ?? (() => { try { return localStorage.getItem(THEME_STORAGE_KEY); } catch (e) { return null; } })();
-  if (t !== 'light' && t !== 'dark') {
-    t = matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
-  }
+  // The Brand Center is a light-only experience; ignore the OS color-scheme preference.
+  if (t !== 'light' && t !== 'dark') t = 'light';
   document.documentElement.dataset.theme = t;
   document.body.classList.remove('light-scheme', 'dark-scheme');
   document.body.classList.add(`${t}-scheme`);
@@ -167,13 +166,64 @@ async function inlineColorIcons(scope) {
   });
 }
 
+/**
+ * Wraps consecutive button paragraphs in a .button-group so they sit side by side,
+ * and flags paragraphs that start with "Note:" as helper notes.
+ * @param {Element} main
+ */
+function decorateButtonGroups(main) {
+  main.querySelectorAll('.button-container').forEach((p) => {
+    if (p.parentElement.classList.contains('button-group')) return;
+    const next = p.nextElementSibling;
+    if (!next?.classList.contains('button-container')) return;
+    const group = document.createElement('div');
+    group.className = 'button-group';
+    p.before(group);
+    let el = p;
+    while (el?.classList.contains('button-container')) {
+      const following = el.nextElementSibling;
+      group.append(el);
+      el = following;
+    }
+  });
+  main.querySelectorAll('p').forEach((p) => {
+    if (/^note:/i.test(p.textContent.trim())) p.classList.add('note');
+  });
+}
+
+/**
+ * Applies any section-metadata the delivery pipeline left in the markup
+ * (e.g. local html-folder previews) as section classes / data attributes.
+ * @param {Element} main
+ */
+function decorateSectionMetadata(main) {
+  main.querySelectorAll(':scope > .section div.section-metadata').forEach((sectionMeta) => {
+    const section = sectionMeta.closest('.section');
+    const meta = readBlockConfig(sectionMeta);
+    Object.keys(meta).forEach((key) => {
+      if (key === 'style') {
+        meta.style.split(',').map((s) => toClassName(s.trim())).filter(Boolean)
+          .forEach((s) => section.classList.add(s));
+      } else {
+        section.dataset[toCamelCase(key)] = meta[key];
+      }
+    });
+    const wrapper = sectionMeta.parentElement;
+    sectionMeta.remove();
+    if (wrapper !== section && !wrapper.children.length) wrapper.remove();
+  });
+}
+
 export function decorateMain(main) {
   decorateButtons(main);
   decorateIcons(main);
   inlineColorIcons(main);
   buildAutoBlocks(main);
   decorateSections(main);
+  decorateSectionMetadata(main);
   decorateBlocks(main);
+  // after block detection, so the wrapper isn't mistaken for a block
+  decorateButtonGroups(main);
   if (document.contains(main)) initPageSchemas();
 }
 

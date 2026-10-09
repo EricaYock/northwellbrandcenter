@@ -6,3 +6,5 @@ package.json
 package-lock.json
 test/*
 workers/*
+tools/importer/mockup/*
+tools/importer/reports/*

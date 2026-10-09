@@ -70,6 +70,26 @@ export function createTag(tag, attributes = {}, content = null) {
 }
 
 /**
+ * Root folder the site's pages are served from. Local html-folder previews serve
+ * pages under /content/; on aem.page / aem.live this is '' (site root).
+ * @returns {string}
+ */
+export function getSiteRoot() {
+  return /^\/content(\/|$)/.test(window.location.pathname) ? '/content' : '';
+}
+
+/**
+ * Prefixes a root-relative site path with the site root (no-op on aem.page / aem.live).
+ * @param {string} path e.g. "/logos"
+ * @returns {string}
+ */
+export function toSitePath(path) {
+  const root = getSiteRoot();
+  if (!root || !path.startsWith('/') || path.startsWith('//') || path.startsWith(`${root}/`)) return path;
+  return `${root}${path}`;
+}
+
+/**
  * Format a date value for display.
  * @param {string|number} dateValue - Date string or timestamp
  * @returns {string} Formatted date string

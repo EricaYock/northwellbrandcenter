@@ -36,7 +36,11 @@ async function loadCloudflareAnalytics() {
 
 async function init() {
   await loadCloudflareAnalytics();
-  await injectSocialShareBlock();
+  // The Brand Center does not use the floating social share dock;
+  // opt a page in with metadata "social-share: true".
+  if (document.querySelector('meta[name="social-share"]')?.content === 'true') {
+    await injectSocialShareBlock();
+  }
 }
 
 init();
